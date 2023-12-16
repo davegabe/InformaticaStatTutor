@@ -22,14 +22,20 @@ row_size = 3
 exercises = [i for i in range(1, num_ex+1)]
 
 
-def is_logged_in() -> bool:
+def is_logged_in(cookies, ip) -> bool:
     """
     Check if the user is logged in.
+
+    Args:
+        cookies (dict): Dictionary of cookies of the user.
+        ip (str): IP address of the user.
 
     Returns:
         bool: True if the user is logged in, False otherwise.
     """
-    return "nome" in request.cookies and "cognome" in request.cookies and "matricola" in request.cookies and "ip" in request.cookies
+    has_cookies = "nome" in cookies and "cognome" in cookies and "matr" in cookies and "ip" in cookies
+    has_folder = os.path.isdir(os.path.join(app.config['UPLOAD_FOLDER'], ip))
+    return has_cookies and has_folder
 
 
 def allowed_file(filename: str) -> bool:
@@ -51,8 +57,11 @@ def login():
     """
     Web page for logging in.
     """
+    # Get the IP address of the user
+    ip = request.remote_addr.replace(".", "_")
+
     # Check if the user is already logged in
-    if is_logged_in():
+    if is_logged_in(request.cookies, ip):
         return redirect(url_for("exam"))
 
     # Check if the user is trying to log in
@@ -67,8 +76,6 @@ def login():
         resp.set_cookie("nome", request.form["nome"], expires=cookie_exp)
         resp.set_cookie("cognome", request.form["cognome"], expires=cookie_exp)
         resp.set_cookie("matr", request.form["matr"], expires=cookie_exp)
-        # get IP address of the user
-        ip = request.remote_addr.replace(".", "_")
         resp.set_cookie("ip", ip, expires=cookie_exp)
 
         # Create a folder for the user
@@ -94,12 +101,14 @@ def exam():
     """
     Web page for downloading the exam.
     """
+    # Get the IP address of the user
+    ip = request.remote_addr.replace(".", "_")
+
     # Check if the user is logged in, otherwise redirect to the login page
-    if not is_logged_in():
+    if not is_logged_in(request.cookies, ip):
         return redirect(url_for("login"))
 
     # Check if the user has already uploaded files
-    ip = request.cookies["ip"]
     folder = os.path.join(app.config['UPLOAD_FOLDER'], ip)
     rows = []  # List of (exercise number, already_uploaded)
     row = []
@@ -127,12 +136,14 @@ def upload(n_exercise):
     # Get the exercise number
     n_exercise = int(n_exercise)
 
+    # Get the IP address of the user
+    ip = request.remote_addr.replace(".", "_")
+
     # Check if the user is logged in, otherwise redirect to the login page
-    if not is_logged_in():
+    if not is_logged_in(request.cookies, ip):
         return redirect(url_for("login"))
 
     # Check if the user has already uploaded the file
-    ip = request.cookies["ip"]
     folder = os.path.join(app.config['UPLOAD_FOLDER'], ip)
     filename = f"es{n_exercise}.py"
     if os.path.isfile(os.path.join(folder, filename)):
@@ -182,8 +193,11 @@ def upload(n_exercise):
 
 @app.route('/end', methods=['GET', 'POST'])
 def end():
+    # Get the IP address of the user
+    ip = request.remote_addr.replace(".", "_")
+
     # Check if the user is logged in, otherwise redirect to the login page
-    if not is_logged_in():
+    if not is_logged_in(request.cookies, ip):
         return redirect(url_for("login"))
 
     # Check if the user want to submit the exam
@@ -191,7 +205,6 @@ def end():
         confirm = request.form["confirm"]
         if confirm == "on":
             # Update the info file
-            ip = request.cookies["ip"]
             folder = os.path.join(app.config['UPLOAD_FOLDER'], ip)
             with open(os.path.join(folder, "info.txt"), "a") as f:
                 time = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
