@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/bulma/bulma.css">
+</head>
+
+<body>
+    <section class="hero is-dark is-fullheight">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div id="navbarMenuHeroB" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item {% if 'Esame' in title %}is-active{% endif %}" href="/">
+                                Esame
+                            </a>
+                            <a class="navbar-item {% if 'Consegna' in title %}is-active{% endif %}" href="/upload">
+                                Consegna
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+
+        <div class="hero-foot">
+            <div class="container">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="notification is-warning">
+                    <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+                    {% for message in messages %}
+                    {{ message }}<br/>
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

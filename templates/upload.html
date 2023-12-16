@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block body %}
+<p class="title">
+    Carica il tuo esame
+</p>
+<p class="subtitle">
+    Compila i campi seguenti con nome, cognome, matricola e il file dell'Esame in formato .zip
+</p>
+
+<div class="container is-dark">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Nome" name="nome">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Cognome" name="cognome">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Matricola" name="matricola">
+            </div>
+        </div>
+
+        <div class="file has-name is-fullwidth" id="file-with-js">
+            <label class="file-label">
+                <input class="file-input" type="file" name="file">
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Scegli un file…
+                    </span>
+                </span>
+                <span class="file-name">
+                    [nessun file selezionato]
+                </span>
+            </label>
+        </div>
+
+        <div class="buttons is-centered" style="margin-top: 15px;">
+            <button class="button is-dark is-inverted" type="submit">
+                <span>Carica</span>
+            </button>
+        </div>
+    </form>
+</div>
+<script src="/static/js/upload.js"></script>
+{% endblock %}
