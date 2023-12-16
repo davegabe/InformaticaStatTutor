@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+<p class="title">
+    Accedi al tuo esame
+</p>
+<p class="subtitle">
+    Compila i campi seguenti con nome, cognome, matricola. Assicurati di scriverli correttamente.
+</p>
+
+<div class="container is-dark">
+    <form action="/login" method="post">
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Nome" name="nome" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Cognome" name="cognome" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Matricola" name="matr" required>
+            </div>
+        </div>
+
+        <div class="buttons is-centered" style="margin-top: 15px;">
+            <button class="button is-inverted" type="submit" id="submit-button">
+                <span>Procedi</span>
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

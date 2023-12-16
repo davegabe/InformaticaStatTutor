@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<p class="title">
+    Sei pronto per consegnare?
+</p>
+<p class="subtitle">
+    Assicurati di aver caricato tutti i file nella sezione "Esame" prima di procedere
+</p>
+
+<div class="container is-dark">
+    <form action="/end" method="post">
+
+        <label class="checkbox has-text-white">
+            <input type="checkbox" name="confirm" required>
+            Confermo di aver caricato tutti i file e di voler procedere alla consegna dell'esame.
+        </label>
+
+        <div class="buttons is-centered" style="margin-top: 15px;">
+            <button class="button is-inverted" type="submit" id="submit-button">
+                <span>Consegna</span>
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

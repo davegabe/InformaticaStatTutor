@@ -4,11 +4,31 @@
     {{ title }}
 </p>
 <p class="subtitle">
-    Scarica il file .zip dell'esame
+    Leggi la traccia e procedi con l'esame. Buona fortuna!
 </p>
 <div class="buttons is-centered">
-    <a class="button is-inverted" href="/static/files/exam.zip">
-        <span>Download</span>
+    <a class="button is-inverted" href="/static/files/exam.pdf">
+        <span>Apri PDF</span>
     </a>
 </div>
+
+{% for row in rows %}
+<div class="tile is-ancestor">
+    {% for exercise, already_exists in row %}
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+            <p class="title has-text-black">Esercizio {{exercise}}</p>
+            <a href="/exercise/{{exercise}}">
+                <p class="subtitle has-text-link">Apri
+                    {% if already_exists %}
+                    (già caricato)
+                    {% endif %}
+                </p>
+            </a>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
 {% endblock %}

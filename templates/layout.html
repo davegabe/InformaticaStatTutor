@@ -10,6 +10,7 @@
 
 <body>
     <section class="hero is-dark is-fullheight">
+        {% if 'Login' not in title %}
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
@@ -18,14 +19,15 @@
                             <a class="navbar-item {% if 'Esame' in title %}is-active{% endif %}" href="/">
                                 Esame
                             </a>
-                            <a class="navbar-item {% if 'Consegna' in title %}is-active{% endif %}" href="/upload">
-                                Consegna
+                            <a class="navbar-item {% if 'Consegna' in title %}is-active{% endif %}" href="/end">
+                                Consegna ed esci
                             </a>
                         </div>
                     </div>
                 </div>
             </nav>
         </div>
+        {% endif %}
 
         <div class="hero-body">
             <div class="container has-text-centered">
@@ -35,14 +37,24 @@
 
         <div class="hero-foot">
             <div class="container">
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(category_filter=["error", "warning"]) %}
                 {% if messages %}
                 <div class="notification is-warning">
                     <button class="delete" onclick="this.parentElement.style.display='none'"></button>
                     {% for message in messages %}
-                    {{ message }}<br/>
+                    {{ message }}<br />
                     {% endfor %}
-                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                {% with messages = get_flashed_messages(category_filter=["success"]) %}
+                {% if messages %}
+                <div class="notification is-success">
+                    <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+                    {% for message in messages %}
+                    {{ message }}<br />
+                    {% endfor %}
                 </div>
                 {% endif %}
                 {% endwith %}

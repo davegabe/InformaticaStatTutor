@@ -1,32 +1,18 @@
 {% extends "layout.html" %}
 {% block body %}
 <p class="title">
-    Carica il tuo esame
+    Esercizio {{ n_exercise }}
 </p>
 <p class="subtitle">
-    Compila i campi seguenti con nome, cognome, matricola e il file dell'Esame in formato .zip
+    Carica il file nomerichiesto.py dell'esercizio {{ n_exercise }}.
+    {% if already_uploaded != None %}
+    <br />
+    <b>Hai già caricato il file {{ already_uploaded }}.</b>
+    {% endif %}
 </p>
 
 <div class="container is-dark">
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <div class="field">
-            <div class="control">
-                <input class="input" type="text" placeholder="Nome" name="nome">
-            </div>
-        </div>
-
-        <div class="field">
-            <div class="control">
-                <input class="input" type="text" placeholder="Cognome" name="cognome">
-            </div>
-        </div>
-
-        <div class="field">
-            <div class="control">
-                <input class="input" type="text" placeholder="Matricola" name="matricola">
-            </div>
-        </div>
-
+    <form action="/exercise/{{ n_exercise }}" method="post" enctype="multipart/form-data">
         <div class="file has-name is-fullwidth" id="file-with-js">
             <label class="file-label">
                 <input class="file-input" type="file" name="file">
@@ -39,17 +25,26 @@
                     </span>
                 </span>
                 <span class="file-name">
+                    {% if already_uploaded != None %}
+                    {{ already_uploaded }}
+                    {% else %}
                     [nessun file selezionato]
+                    {% endif %}
                 </span>
             </label>
         </div>
 
         <div class="buttons is-centered" style="margin-top: 15px;">
             <button class="button is-inverted" type="submit" id="submit-button">
+                {% if already_uploaded != None %}
+                <span>Sostituisci</span>
+                {% else %}
                 <span>Carica</span>
+                {% endif %}
             </button>
         </div>
     </form>
 </div>
 <script src="/static/js/upload.js"></script>
+
 {% endblock %}
