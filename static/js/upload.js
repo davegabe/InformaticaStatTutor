@@ -17,3 +17,9 @@ input.onchange = function () {
             input.files[0].name;
     }
 };
+
+// Change class to loading on click of submit button
+var submitButton = document.querySelector("#submit-button");
+submitButton.onclick = function () {
+    submitButton.classList.add("is-loading");
+};
