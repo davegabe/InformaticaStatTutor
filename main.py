@@ -223,3 +223,7 @@ def end():
             return redirect(url_for("exam"))
 
     return render_template("end.html", title="Consegna")
+
+# Run the app
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=3000, debug=True)
