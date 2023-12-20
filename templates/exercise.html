@@ -4,6 +4,11 @@
     Esercizio {{ n_exercise }}
 </p>
 <p class="subtitle">
+    <div class="block">
+        <a class="button is-inverted" href="/static/files/test_{{ n_exercise }}.py">
+            <span>Scarica test_{{ n_exercise }}.py</span>
+        </a>
+    </div>
     Carica il file nomerichiesto.py dell'esercizio {{ n_exercise }}.
     {% if already_uploaded != None %}
     <br />

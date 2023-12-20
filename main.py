@@ -15,6 +15,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.secret_key = 'super secret key'
 cookie_exp = datetime.now() + timedelta(hours=3)
 
+# Parameters of the exam
 date = datetime.now().strftime("%d/%m/%Y")
 title = "Esame del " + date
 num_ex = 6
@@ -125,7 +126,7 @@ def exam():
         rows.append(row)
 
     # Show the exam page
-    return render_template("exam.html", title=title, rows=rows)
+    return render_template("exam.html", title="Esame", rows=rows)
 
 
 @app.route("/exercise/<n_exercise>", methods=["GET", "POST"])
@@ -186,7 +187,7 @@ def upload(n_exercise):
 
     # Show the upload page
     return render_template(
-        "exercise.html", title="Caricamento",
+        "exercise.html", title=f"Esercizio {n_exercise}",
         n_exercise=n_exercise, already_uploaded=already_uploaded
     )
 
@@ -222,7 +223,7 @@ def end():
             flash("ATTENZIONE: Devi confermare la consegna", "error")
             return redirect(url_for("exam"))
 
-    return render_template("end.html", title="Consegna")
+    return render_template("end.html", title="Consegna esame")
 
 # Run the app
 if __name__ == "__main__":
